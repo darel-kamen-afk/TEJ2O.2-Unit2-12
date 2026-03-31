@@ -5,34 +5,42 @@
  * This program will make an if... then statement 
 */
 
-let distance: number = 0
-const Strip = neopixel.create(DigitalPin.P16, 4, NeoPixelMode.RGB)
+let distanceToObject = 0
+let neopixelStrip: neopixel.Strip = null
 
-basic.clearScreen()
-basic.showIcon (IconNames.Happy)
+
+//
+neopixelStrip = neopixel.create(DigitalPin.P0, 4, NeoPixelMode.RGB)
+
 
 input.onButtonPressed(Button.A, function () {
- //measuring the distance...
- basic.clearScreen()
- distance = sonar.ping(DigitalPin.P1, DigitalPin.P2, PingUnit.Centimeters)
-    
-    basic.showNumber(distance)
-
-    if (distance < 10) {
-        basic.showString('< 10 cm')
-        Strip.showColor(neopixel.colors(NeoPixelColors.Red))
-        Strip.show()
-    } else {
-        //green if 10cm or further 
-        basic.showString('>= 10 cm')
-        Strip.showColor(neopixel.colors(NeoPixelColors.Green))
-        Strip.show()
-      }
-    })
-
-    input.onButtonPressed(Button.B, function() {
     basic.clearScreen()
-    basic.showIcon(IconNames. Happy)
-Strip.showColor(neopixel.colors(NeoPixelColors.Black))
-Strip.show()
+
+
+    //
+    distanceToObject = randint(1, 100)
+    basic.showNumber(distanceToObject)
+
+
+    //
+    if (distanceToObject > 10) {
+        //
+        neopixelStrip.showColor(neopixel.colors(NeoPixelColors.Green))
+    } else {
+        //
+        neopixelStrip.showColor(neopixel.colors(NeoPixelColors.Red))
+        basic.showIcon(IconNames.No)
+    }
+
+
+    //
+    neopixelStrip.show()
+    basic.pause(2000)
+
+
+    // 4. turn all lights off (Black) and show Happy face
+    neopixelStrip.clear()
+    neopixelStrip.show()
+    basic.clearScreen()
+    basic.showIcon(IconNames.Happy)
 })
